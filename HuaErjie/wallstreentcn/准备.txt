@@ -1,0 +1,9 @@
+华尔街见闻
+实时快讯：
+https://wallstreetcn.com/live/global
+
+分为六大板块：宏观，区块链，A股，美股，外汇，商品
+
+api接口：https://api-prod.wallstreetcn.com/apiv1/content/lives/pc?limit=40
+
+对于items参数：global,blockchain,a_stock,us_stock,forex ,commodity
