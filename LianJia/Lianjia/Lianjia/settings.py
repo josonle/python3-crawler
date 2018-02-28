@@ -14,6 +14,7 @@ BOT_NAME = 'Lianjia'
 SPIDER_MODULES = ['Lianjia.spiders']
 NEWSPIDER_MODULE = 'Lianjia.spiders'
 
+COMMANDS_MODULE ='Lianjia.commands'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.221 Safari/537.36 SE 2.X MetaSr 1.0'

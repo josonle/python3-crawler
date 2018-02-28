@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import scrapy
-import re
 from GetProxy.items import ProxyItem
-import urllib.request
+# import urllib.request
+import requests
 
 class XicipeoxySpider(scrapy.Spider):
     name = 'Xicipeoxy'
@@ -21,18 +21,22 @@ class XicipeoxySpider(scrapy.Spider):
         type_list = response.xpath('//table[@id="ip_list"]//tr[@class="odd" or @class=""]/td[6]/text()').extract()
         print(response.url)
         for (ip, port, type) in zip(ip_list, port_list, type_list):
-            proxies = {type: '%s:%s' % (ip, port)}
+            proxies = {'http': 'http://%s:%s/' % (ip, port)}
+            #以下是使用urllib添加代理
+            # proxy_support = urllib.request.ProxyHandler(proxies)
+            # opener = urllib.request.build_opener(proxy_support)
+            # urllib.request.install_opener(opener)
             try:
-                # 设置代理链接百度  如果状态码为200 则表示该代理可以使用 然后交给流水线处理
-                proxy_support = urllib.request.ProxyHandler(proxies)
-                opener = urllib.request.build_opener(proxy_support)
-                urllib.request.install_opener(opener)
-                if urllib.request.urlopen('http://www.baidu.com').getcode() == 200:
-                    print('%s 可用' % ip)
-                    item = ProxyItem()
-                    item['url'] = type + '://' + ip + ':' + port
-
-                    yield item
-            except:
+                #检验网址'http://2017.ip138.com/ic.asp'或'http://httpbin.org/ip'
+                # req=urllib.request.Request('http:httpbin.org/ip')
+                # res=urllib.request.urlopen(req,timeout=30)
+                #这里是使用requests添加代理，更简单
+                res=requests.get('http://httpbin.org/ip',proxies=proxies,timeout=15).content.decode('utf-8')
+                print('%s 可用,  %s' % (ip,res))
+                item = ProxyItem()
+                item['url'] = type + '://' + ip + ':' + port
+                yield item
+            except Exception as e:
+                print('Error:',e)
                 print('fail %s' % ip)
         pass

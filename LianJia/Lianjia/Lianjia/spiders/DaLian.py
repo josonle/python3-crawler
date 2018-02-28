@@ -18,7 +18,7 @@ class DalianSpider(scrapy.Spider):
             content=re.compile(r'"totalPage":(.*?),"curPage"',re.S)
             pages=int(re.findall(content,res.content.decode('utf-8'))[0])
             print('共有%d页'%pages)
-            for i in range(1,pages+1):
+            for i in range(1,2):
                 nexturl=url+'pg%d/'%i
                 yield Request(url=nexturl,callback=self.parse)
 
